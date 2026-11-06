@@ -1,0 +1,50 @@
+; ---------------------------------------------------------------------------
+; RoadCAD Sheet Studio - plot the current DXF to an A2 PDF.
+; Run with the drawing open:  SCRIPT  ->  pick this file.
+; AutoCAD prompts vary slightly by release; step through once and adjust.
+; Assumes the DXF from out/ is already OPEN in model space.
+; ---------------------------------------------------------------------------
+FILEDIA
+0
+CMDDIA
+0
+-PLOT
+; detailed plot configuration?            N
+N
+; layout name
+Model
+; output device
+DWG To PDF.pc3
+; paper size (A2 landscape, mm)
+ISO full bleed A2 (594.00 x 420.00 MM)
+; paper units
+Millimeters
+; plot orientation
+Landscape
+; plot upside down?                       N
+N
+; plot area
+Extents
+; plot scale (1:1 - the sheet is drawn full size)
+1:1
+; plot offset (centre the plot)
+Center
+; plot with plot styles?
+Y
+monochrome.ctb
+; plot with lineweights?
+Y
+; shade plot (as displayed / hidden / rendered)
+As displayed
+; plot to file?
+Y
+; file name
+./LIFIDI-PP1-A2.pdf
+; save changes to page setup?             N
+N
+; proceed with plot?                      Y
+Y
+FILEDIA
+1
+CMDDIA
+1

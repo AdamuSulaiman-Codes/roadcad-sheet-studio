@@ -1,0 +1,227 @@
+{
+  "id": "lifidi-pp3",
+  "name": "LIFIDI - PIAPUNG (PP3)",
+  "meta": {
+    "projectTitle": "ENGINEERING DESIGN FOR THE CONSTRUCTION OF LIFIDI-PIAPUNG ROAD WITH SPUR TO NWOP",
+    "drawingTitle": "HORIZONTAL & VERTICAL ALIGNMENT",
+    "client": "PLATEAU STATE GOVERNMENT",
+    "clientSub": "PLATEAU STATE MINISTRY OF WORKS",
+    "consultant": "MASTODON ENGINEERING SERVICES LTD.",
+    "consultantLines": [
+      "2nd Floor, Murtala Mohammed House,",
+      "No.37 Murtala Mohammed Way,",
+      "Jos, Plateau State.",
+      "Phone: 08035904133"
+    ],
+    "designed": "ENGR. D.O.O",
+    "drawn": "ENGR. D.O.O",
+    "checked": "ENGR. S.A.O",
+    "approved": "ENGR. M.S.O",
+    "date": "MARCH, 2026",
+    "sheetNo": "PP3",
+    "drawingNo": "000",
+    "logo": "crest",
+    "revision": [
+      {
+        "no": "A",
+        "date": "12/02/26",
+        "name": "D.O.O",
+        "amendments": "FIRST ISSUE",
+        "remarks": ""
+      },
+      {
+        "no": "B",
+        "date": "20/02/26",
+        "name": "S.A.O",
+        "amendments": "PROFILE REVISED",
+        "remarks": ""
+      }
+    ]
+  },
+  "settings": {
+    "sheet": "A2",
+    "hScale": "auto",
+    "vScale": "auto",
+    "stationInterval": 25,
+    "labelInterval": 50,
+    "tickInterval": 10,
+    "gridInterval": 0,
+    "showExisting": true,
+    "showSideRoads": true,
+    "showLegend": true,
+    "showNotes": true
+  },
+  "alignment": {
+    "name": "MAIN LINE",
+    "startStation": 0,
+    "nodes": [
+      {
+        "e": 541000,
+        "n": 1003000,
+        "r": 0
+      },
+      {
+        "e": 541212.132,
+        "n": 1003212.132,
+        "r": 400
+      },
+      {
+        "e": 541338.918,
+        "n": 1003484.024,
+        "r": 500
+      },
+      {
+        "e": 541584.663,
+        "n": 1003656.097,
+        "r": 400
+      },
+      {
+        "e": 541683.144,
+        "n": 1003673.462,
+        "r": 0
+      }
+    ],
+    "width": {
+      "carriageway": 7.3,
+      "shoulder": 1.5
+    }
+  },
+  "sideAlignments": [],
+  "profile": {
+    "pvis": [
+      {
+        "station": 0,
+        "elev": 300.45,
+        "L": 0
+      },
+      {
+        "station": 210,
+        "elev": 301.857,
+        "L": 160
+      },
+      {
+        "station": 430,
+        "elev": 298.293,
+        "L": 220
+      },
+      {
+        "station": 650,
+        "elev": 303.925,
+        "L": 200
+      },
+      {
+        "station": 989.592,
+        "elev": 296.624,
+        "L": 0
+      }
+    ]
+  },
+  "ground": {
+    "stations": [
+      0,
+      25,
+      50,
+      75,
+      100,
+      125,
+      150,
+      175,
+      200,
+      225,
+      250,
+      275,
+      300,
+      325,
+      350,
+      375,
+      400,
+      425,
+      450,
+      475,
+      500,
+      525,
+      550,
+      575,
+      600,
+      625,
+      650,
+      675,
+      700,
+      725,
+      750,
+      775,
+      800,
+      825,
+      850,
+      875,
+      900,
+      925,
+      950,
+      975,
+      989.592
+    ],
+    "levels": [
+      299.976,
+      300.011,
+      300.06,
+      300.14,
+      300.23,
+      300.293,
+      300.288,
+      300.186,
+      300.04,
+      299.893,
+      299.74,
+      299.534,
+      299.223,
+      298.844,
+      298.508,
+      298.29,
+      298.217,
+      298.276,
+      298.426,
+      298.631,
+      298.896,
+      299.268,
+      299.801,
+      300.367,
+      300.859,
+      301.23,
+      301.436,
+      301.471,
+      301.365,
+      301.151,
+      300.831,
+      300.441,
+      299.998,
+      299.468,
+      298.869,
+      298.256,
+      297.683,
+      297.169,
+      296.691,
+      296.208,
+      295.916
+    ]
+  },
+  "structures": [
+    {
+      "type": "pipe",
+      "station": 300,
+      "size": "1/900mm",
+      "label": "PROP. 1/900mm Pipe"
+    },
+    {
+      "type": "pipe",
+      "station": 620,
+      "size": "1/1200mm",
+      "label": "PROP. 1/1200mm Pipe"
+    }
+  ],
+  "notes": [
+    "All dimensions in metres unless otherwise stated.",
+    "Chainages are measured along the centreline from the project datum.",
+    "H.T. DIFF = Proposed level - Existing ground level (+ fill, - cut).",
+    "PROFILE LEVEL = top of formation (carriageway) level."
+  ]
+}

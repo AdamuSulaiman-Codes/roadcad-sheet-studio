@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>RoadCAD Sheet Studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141518'/%3E%3Crect x='7' y='5' width='18' height='22' rx='2' fill='none' stroke='%23e7e9ee' stroke-width='1.6'/%3E%3Cpath d='M7 19h7l4.5-5H25' fill='none' stroke='%23c62828' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="src/app.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ───────────────────────────────────────────────────────── top bar ── -->
+  <header class="topbar" role="banner">
+    <div class="brand" aria-hidden="true">
+      <svg class="brand-mark" viewBox="0 0 20 20" fill="none" width="20" height="20">
+        <rect x="3" y="2.5" width="14" height="15" rx="2.5" stroke="currentColor" stroke-width="1.3"/>
+        <path d="M3 12.6h4.7l3.1-3.6H17" stroke="#c62828" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 16.2h14" stroke="currentColor" stroke-width="1" opacity=".35"/>
+      </svg>
+      <span class="brand-name">RoadCAD <span>Sheet Studio</span></span>
+    </div>
+
+    <label class="visually-hidden" for="projectName">Project name</label>
+    <input id="projectName" class="project-name" type="text" autocomplete="off" spellcheck="false"
+           placeholder="Untitled project" title="Project name">
+
+    <label class="visually-hidden" for="presetSelect">Preset</label>
+    <div class="select-wrap select-wrap--preset">
+      <select id="presetSelect">
+        <option value="lifidi-pp1">PP1 · LIFIDI–PIAPUNG</option>
+        <option value="lifidi-pp3">PP3 · LIFIDI–PP3</option>
+        <option value="blank">Blank sheet</option>
+      </select>
+    </div>
+
+    <div class="topbar-spacer"></div>
+
+    <div class="scale-readout" id="scaleReadout" title="Drawing scales (horizontal / vertical)">
+      <span class="scale-h">H <b>—</b></span>
+      <span class="scale-v">V <b>—</b></span>
+    </div>
+    <div class="sheet-chip" id="sheetChip" title="Sheet number and size">—</div>
+
+    <div class="export-split">
+      <button id="exportPrimary" class="btn btn-primary" type="button" title="Download DXF (opens in AutoCAD)">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 2.5v7"/><path d="M5.2 6.9 8 9.7l2.8-2.8"/><path d="M2.8 11v1.5a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1V11"/>
+        </svg>
+        <span>Export DXF</span>
+      </button>
+      <button id="exportMenuBtn" class="btn export-more" type="button"
+              aria-label="More export formats" aria-haspopup="menu" aria-expanded="false" title="More export formats">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6.5 8 10.5l4-4"/>
+        </svg>
+      </button>
+      <div class="menu" id="exportMenu" role="menu" aria-label="Export formats" hidden>
+        <button class="menu-item" role="menuitem" type="button" data-export="dxf">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2.5h6l4 4v7h-10z"/><path d="M9 2.5v4h4"/></svg>
+          <span>DXF drawing</span><span class="menu-ext">.dxf</span>
+        </button>
+        <button class="menu-item" role="menuitem" type="button" data-export="pdf">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2.5h6l4 4v7h-10z"/><path d="M9 2.5v4h4"/><path d="M5.5 11.5h5"/></svg>
+          <span>PDF sheet</span><span class="menu-ext">.pdf</span>
+        </button>
+        <button class="menu-item" role="menuitem" type="button" data-export="svg">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2.5h6l4 4v7h-10z"/><path d="M9 2.5v4h4"/><circle cx="6" cy="10" r="1.2"/><path d="M5 12.5 7 11l2.5 1.5"/></svg>
+          <span>SVG vector</span><span class="menu-ext">.svg</span>
+        </button>
+        <div class="menu-sep" role="separator"></div>
+        <button class="menu-item" role="menuitem" type="button" data-export="csv">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3" width="11" height="10" rx="1"/><path d="M2.5 6.5h11M2.5 10h11M6.5 3v10M10 3v10"/></svg>
+          <span>Station table</span><span class="menu-ext">.csv</span>
+        </button>
+        <button class="menu-item" role="menuitem" type="button" data-export="json">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5H4.8a1.3 1.3 0 0 0-1.3 1.3v2.4A1.3 1.3 0 0 1 2.2 7.5a1.3 1.3 0 0 1 1.3 1.3v2.4a1.3 1.3 0 0 0 1.3 1.3H6"/><path d="M10 2.5h1.2a1.3 1.3 0 0 1 1.3 1.3v2.4a1.3 1.3 0 0 0 1.3 1.3 1.3 1.3 0 0 0-1.3 1.3v2.4a1.3 1.3 0 0 1-1.3 1.3H10"/></svg>
+          <span>Project JSON</span><span class="menu-ext">.json</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="zoom-group" role="group" aria-label="Zoom controls">
+      <button class="btn btn-zoom" id="zoomOutBtn" type="button" aria-label="Zoom out" title="Zoom out (−)">−</button>
+      <button class="zoom-value" id="zoomValue" type="button" aria-label="Current zoom. Activate to reset to 100%" title="Reset zoom to 100%">—</button>
+      <button class="btn btn-zoom" id="zoomInBtn" type="button" aria-label="Zoom in" title="Zoom in (+)">+</button>
+      <button class="btn btn-fit" id="fitBtn" type="button" aria-label="Fit sheet to window" title="Fit sheet (F)">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6V3h3M10 3h3v3M13 10v3h-3M6 13H3v-3"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ───────────────────────────────────────────── environment banner ── -->
+  <div class="banner" id="banner" role="alert" hidden>
+    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.6 14 13H2z"/><path d="M8 6.4v2.7M8 11.4v.1"/></svg>
+    <span class="banner-text" id="bannerText">Presets could not be loaded.</span>
+    <button class="banner-close" id="bannerClose" type="button" aria-label="Dismiss banner">×</button>
+  </div>
+
+  <!-- ─────────────────────────────────────────────────────── workspace ── -->
+  <main class="workspace">
+    <aside class="panel" aria-label="Project settings">
+      <div class="tabs" role="tablist" aria-label="Settings sections">
+        <button class="tab is-active" id="tab-project" role="tab" aria-selected="true" aria-controls="panel-project" type="button">Project</button>
+        <button class="tab" id="tab-horizontal" role="tab" aria-selected="false" aria-controls="panel-horizontal" tabindex="-1" type="button">Horizontal</button>
+        <button class="tab" id="tab-vertical" role="tab" aria-selected="false" aria-controls="panel-vertical" tabindex="-1" type="button">Vertical</button>
+        <button class="tab" id="tab-survey" role="tab" aria-selected="false" aria-controls="panel-survey" tabindex="-1" type="button">Survey</button>
+        <button class="tab" id="tab-sheet" role="tab" aria-selected="false" aria-controls="panel-sheet" tabindex="-1" type="button">Sheet</button>
+      </div>
+
+      <div class="panel-body" id="panelBody">
+
+        <!-- Project ------------------------------------------------------- -->
+        <div class="tabpanel" id="panel-project" role="tabpanel" aria-labelledby="tab-project">
+          <div class="panel-actions">
+            <button class="btn" id="importBtn" type="button">
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5v-8"/><path d="M5.2 6.1 8 3.3l2.8 2.8"/><path d="M2.8 11v1.5a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1V11"/></svg>
+              Import JSON
+            </button>
+            <button class="btn" id="resetBtn" type="button">
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5"/><path d="M3 2.6v3.2h3.2"/></svg>
+              <span id="resetBtnText">Reset to preset</span>
+            </button>
+            <input type="file" id="importFile" accept=".json,application/json" aria-label="Import project JSON file" hidden>
+          </div>
+
+          <section class="group">
+            <h2 class="group-title">Title block</h2>
+            <label class="field"><span class="field-label">Project title</span>
+              <textarea class="input" rows="2" spellcheck="false" data-path="meta.projectTitle"></textarea>
+            </label>
+            <label class="field"><span class="field-label">Drawing title</span>
+              <input class="input" type="text" spellcheck="false" data-path="meta.drawingTitle">
+            </label>
+            <label class="field"><span class="field-label">Client</span>
+              <input class="input" type="text" spellcheck="false" data-path="meta.client">
+            </label>
+            <label class="field"><span class="field-label">Client sub-title</span>
+              <input class="input" type="text" spellcheck="false" data-path="meta.clientSub">
+            </label>
+            <label class="field"><span class="field-label">Consultant</span>
+              <input class="input" type="text" spellcheck="false" data-path="meta.consultant">
+            </label>
+            <label class="field"><span class="field-label">Consultant address</span>
+              <textarea class="input input--mono" rows="4" spellcheck="false" data-path="meta.consultantLines" data-kind="lines"></textarea>
+            </label>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Signatures</h2>
+            <div class="grid-2">
+              <label class="field"><span class="field-label">Designed</span><input class="input" type="text" spellcheck="false" data-path="meta.designed"></label>
+              <label class="field"><span class="field-label">Drawn</span><input class="input" type="text" spellcheck="false" data-path="meta.drawn"></label>
+              <label class="field"><span class="field-label">Checked</span><input class="input" type="text" spellcheck="false" data-path="meta.checked"></label>
+              <label class="field"><span class="field-label">Approved</span><input class="input" type="text" spellcheck="false" data-path="meta.approved"></label>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Sheet</h2>
+            <div class="grid-2">
+              <label class="field"><span class="field-label">Date</span><input class="input" type="text" spellcheck="false" data-path="meta.date"></label>
+              <label class="field"><span class="field-label">Sheet no.</span><input class="input" type="text" spellcheck="false" data-path="meta.sheetNo"></label>
+            </div>
+            <label class="field"><span class="field-label">Drawing no.</span>
+              <input class="input" type="text" spellcheck="false" data-path="meta.drawingNo">
+            </label>
+            <div class="grid-2">
+              <label class="field"><span class="field-label">Sheet size</span>
+                <select class="input" data-path="settings.sheet">
+                  <option value="A0">A0 — 1189 × 841</option>
+                  <option value="A1">A1 — 841 × 594</option>
+                  <option value="A2">A2 — 594 × 420</option>
+                  <option value="A3">A3 — 420 × 297</option>
+                  <option value="A4">A4 — 297 × 210</option>
+                </select>
+              </label>
+              <label class="field"><span class="field-label">Orientation</span>
+                <select class="input" data-path="settings.orientation">
+                  <option value="landscape">Landscape</option>
+                  <option value="portrait">Portrait</option>
+                </select>
+              </label>
+            </div>
+          </section>
+        </div>
+
+        <!-- Horizontal ---------------------------------------------------- -->
+        <div class="tabpanel" id="panel-horizontal" role="tabpanel" aria-labelledby="tab-horizontal" hidden>
+          <section class="group">
+            <h2 class="group-title">Centreline PIs <span class="group-hint" id="piCount"></span></h2>
+            <div class="table" id="piTable"></div>
+            <button class="btn btn-add" id="addPiBtn" type="button">
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3.2v9.6M3.2 8h9.6"/></svg>
+              Add PI node
+            </button>
+            <p class="hint">Interior nodes are points of intersection; <b>R</b> = 0 passes straight through.</p>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Road width</h2>
+            <div class="grid-2">
+              <label class="field"><span class="field-label">Carriageway (m)</span>
+                <input class="input nb" type="number" min="0" step="0.1" data-path="alignment.width.carriageway">
+              </label>
+              <label class="field"><span class="field-label">Shoulder (m)</span>
+                <input class="input nb" type="number" min="0" step="0.1" data-path="alignment.width.shoulder">
+              </label>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Chainage</h2>
+            <div class="grid-3">
+              <label class="field"><span class="field-label">Interval</span>
+                <input class="input nb" type="number" min="1" step="1" data-path="settings.stationInterval" aria-label="Station interval, metres">
+              </label>
+              <label class="field"><span class="field-label">Label</span>
+                <input class="input nb" type="number" min="1" step="1" data-path="settings.labelInterval" aria-label="Plan label interval, metres">
+              </label>
+              <label class="field"><span class="field-label">Tick</span>
+                <input class="input nb" type="number" min="1" step="1" data-path="settings.tickInterval" aria-label="Plan tick interval, metres">
+              </label>
+            </div>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">
+              Side roads
+              <label class="switch"><input type="checkbox" data-path="settings.showSideRoads"><span>Show</span></label>
+            </h2>
+            <div id="sideRoads"></div>
+            <button class="btn btn-add" id="addSideBtn" type="button">
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3.2v9.6M3.2 8h9.6"/></svg>
+              Add side road
+            </button>
+          </section>
+        </div>
+
+        <!-- Vertical ------------------------------------------------------ -->
+        <div class="tabpanel" id="panel-vertical" role="tabpanel" aria-labelledby="tab-vertical" hidden>
+          <section class="group">
+            <h2 class="group-title">Profile PVIs <span class="group-hint" id="pviCount"></span></h2>
+            <div class="table" id="pviTable"></div>
+            <button class="btn btn-add" id="addPviBtn" type="button">
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3.2v9.6M3.2 8h9.6"/></svg>
+              Add PVI
+            </button>
+            <p class="hint"><b>L</b> = vertical curve length (m). Grades are derived automatically.</p>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Grades</h2>
+            <div class="readout-list" id="gradesReadout"></div>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Vertical curves · K</h2>
+            <div class="readout-list" id="curvesReadout"></div>
+          </section>
+        </div>
+
+        <!-- Survey -------------------------------------------------------- -->
+        <div class="tabpanel" id="panel-survey" role="tabpanel" aria-labelledby="tab-survey" hidden>
+          <section class="group">
+            <h2 class="group-title">Existing ground</h2>
+            <label class="field"><span class="field-label">Paste CSV — <code>station, elevation</code> per line</span>
+              <textarea class="input input--mono" id="surveyCsv" rows="11" spellcheck="false"
+                        placeholder="0, 297.256&#10;25, 296.986&#10;50, 296.766"></textarea>
+            </label>
+            <div class="btn-row">
+              <button class="btn btn-strong" id="applySurveyBtn" type="button">Apply points</button>
+              <button class="btn" id="clearSurveyBtn" type="button">Clear</button>
+            </div>
+            <div class="readout-box" id="surveyStats" role="status" aria-live="polite">No ground points loaded.</div>
+          </section>
+        </div>
+
+        <!-- Sheet --------------------------------------------------------- -->
+        <div class="tabpanel" id="panel-sheet" role="tabpanel" aria-labelledby="tab-sheet" hidden>
+          <section class="group">
+            <h2 class="group-title">Visible layers <span class="group-hint" id="layerCount"></span></h2>
+            <div class="layer-list" id="layerList"></div>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Drawing options</h2>
+            <label class="check"><input type="checkbox" data-path="settings.showNotes"><span>General notes</span></label>
+            <label class="check"><input type="checkbox" data-path="settings.showExisting"><span>Existing ground</span></label>
+            <label class="check"><input type="checkbox" data-path="settings.showLegend"><span>Legend</span></label>
+            <label class="field"><span class="field-label">Profile grid (m · 0 = auto)</span>
+              <input class="input nb" type="number" min="0" step="0.1" data-path="settings.gridInterval">
+            </label>
+          </section>
+
+          <section class="group">
+            <h2 class="group-title">Notes</h2>
+            <label class="field"><span class="field-label">One note per line</span>
+              <textarea class="input input--mono" rows="6" spellcheck="false" data-path="notes" data-kind="lines"></textarea>
+            </label>
+          </section>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- canvas --------------------------------------------------------- -->
+    <section class="canvas" id="canvas" tabindex="0"
+             aria-label="Drawing canvas. Scroll to zoom, drag to pan, double-click to fit.">
+      <div class="canvas-stage" id="canvasStage">
+        <div class="page" id="page" aria-hidden="true"></div>
+      </div>
+
+      <div class="canvas-empty canvas-ui" id="canvasEmpty" hidden>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 15h6l3.5-4H20"/><path d="M4 18.5h16" opacity=".4"/>
+        </svg>
+        <p>No drawing yet</p>
+        <span>Fix the validation errors to render this sheet.</span>
+      </div>
+
+      <div class="issues canvas-ui" id="issues" role="alert" hidden>
+        <div class="issues-head">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.6 14 13H2z"/><path d="M8 6.4v2.7M8 11.4v.1"/></svg>
+          <strong>Cannot render drawing</strong>
+          <span class="issues-note">showing last good sheet</span>
+        </div>
+        <ul class="issues-list" id="issuesList"></ul>
+      </div>
+
+      <div class="canvas-chip canvas-ui" id="canvasChip">—</div>
+      <div class="canvas-chip canvas-chip--right canvas-ui" id="zoomChip">—</div>
+
+      <div class="drop-overlay canvas-ui" id="dropOverlay" hidden>
+        <div class="drop-card">
+          <svg viewBox="0 0 16 16" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10.5v-8"/><path d="M5.2 6.1 8 3.3l2.8 2.8"/><path d="M2.8 11v1.5a1 1 0 0 0 1 1h8.4a1 1 0 0 0 1-1V11"/></svg>
+          <strong>Drop project JSON</strong>
+          <span>Release to open the project</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ──────────────────────────────────────────────────────── status bar ── -->
+  <footer class="statusbar" aria-label="Sheet statistics">
+    <div class="status-item"><span class="status-label">Length</span><span class="status-value" id="statLength">—</span></div>
+    <div class="status-item"><span class="status-label">H curves</span><span class="status-value" id="statHCurves">—</span></div>
+    <div class="status-item"><span class="status-label">V curves</span><span class="status-value" id="statVCurves">—</span></div>
+    <div class="status-item"><span class="status-label">Max fill</span><span class="status-value" id="statFill">—</span></div>
+    <div class="status-item"><span class="status-label">Max cut</span><span class="status-value" id="statCut">—</span></div>
+    <div class="status-item"><span class="status-label">Render</span><span class="status-value" id="statRender">—</span></div>
+    <div class="status-spacer"></div>
+    <div class="status-validation is-loading" id="statValidation" role="status" aria-live="polite">
+      <span class="status-dot" aria-hidden="true"></span><span id="statValidationText">LOADING</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</div>
+
+<script>
+  // Runs as a classic script before the module graph, so it still fires when the
+  // page is opened from file:// (where ES module loading is blocked outright).
+  (function () {
+    if (location.protocol !== 'file:') return;
+    document.addEventListener('DOMContentLoaded', function () {
+      var banner = document.getElementById('banner');
+      var text = document.getElementById('bannerText');
+      if (!banner || !text) return;
+      text.innerHTML = '<strong>Open this app through the local server.</strong> ES modules cannot load from <code>file://</code> — run <code>npm run dev</code> in the project folder, then open the printed URL.';
+      banner.hidden = false;
+    });
+  })();
+</script>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

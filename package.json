@@ -1,0 +1,20 @@
+{
+  "name": "road-sheet-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "RoadCAD Sheet Studio - parametric horizontal/vertical alignment drawing generator for highway construction sheets (DXF / PDF / SVG / CSV).",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "build": "node tools/build.mjs --preset lifidi-pp1",
+    "build:all": "node tools/build.mjs --all",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node tools/validate.mjs",
+    "presets": "node tools/make-presets.mjs",
+    "preview": "node tools/preview.mjs presets/lifidi-pp1.json out/preview/pp1.svg",
+    "verify": "npm run check && node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

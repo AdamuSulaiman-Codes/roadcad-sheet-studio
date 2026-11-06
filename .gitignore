@@ -1,0 +1,11 @@
+# generated output (rebuild with: npm run build:all)
+out/
+
+# reference client material (LIFIDI screenshots) - local only
+ref/
+
+# local/tooling noise
+node_modules/
+.DS_Store
+.playwright-mcp/
+*.log
